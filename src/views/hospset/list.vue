@@ -12,10 +12,19 @@
       </el-form-item>
     </el-form>
 
+    <!-- 工具条 -->
+    <div>
+      <el-button type="danger" size="mini" @click="removeRows()">批量删除</el-button>
+    </div>
+
+
     <el-table
       :data="list"
       style="width: 100%"
-      height="250">
+      height="250"
+      @selection-change="handleSelectionChange"
+    >
+      <el-table-column type="selection" width="55"/>
       <el-table-column
         fixed
         prop="id"
@@ -87,7 +96,8 @@ export default {
       limit:3,//每页显示的记录数
       searchObj:{},//条件封装对象
       list:[],//每页数据集合
-      total: 0
+      total: 0,
+      multipleSelection: [] // 批量选择中选择的记录列表
     }
   },
   created() {//页面渲染前调用方法获得数据
@@ -95,6 +105,39 @@ export default {
     this.getList()
   },
   methods: {//定义方法，进行请求接口调用
+    // 当表格复选框选项发生变化的时候触发
+    handleSelectionChange(selection) {
+      this.multipleSelection = selection
+    },
+
+    //批量删除医院设置
+    removeRows(){
+      this.$confirm('此操作将永久删除医院是设置信息, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => { //确定执行then方法
+        var idList = []
+        //遍历数组得到每个id值，设置到idList里面
+        for(var i=0;i<this.multipleSelection.length;i++) {
+          var obj = this.multipleSelection[i]
+          var id = obj.id
+          idList.push(id)
+        }
+        //调用接口
+        hospset.batchRemoveHospSet(idList)
+          .then(response => {
+            //提示
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            })
+            //刷新页面
+            this.getList(1)
+          })
+      })
+
+    },
     //医院设置列表
     getList(page = 1) {
       this.current = page

@@ -15,6 +15,14 @@ export default {
       url: `/admin/hosp/hospitalSet/${id}`,
       method: 'delete'
     })
+  },
+  batchRemoveHospSet(idList) {
+    return request({
+      url: `/admin/hosp/hospitalSet/batchRemove`,
+      method: 'delete',
+      data: idList
+    })
   }
+
 
 }
