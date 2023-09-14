@@ -1,5 +1,12 @@
 <template>
   <div class="app-container">
+    <div class="el-toolbar">
+      <div class="el-toolbar-body" style="justify-content: flex-start;">
+        <a href="http://localhost:8202/admin/cmn/dict/exportData" target="_blank">
+          <el-button type="text"><i class="fa fa-plus"/> 导出</el-button>
+        </a>
+      </div>
+    </div>
     <el-table
       :data="list"
       style="width: 100%"
@@ -46,6 +53,10 @@ export default {
     this.getDictList(1)
   },
   methods: {
+    //数据字典导出
+    exportData() {
+      window.location.href = 'http://localhost:8202/admin/cmn/dict/exportData'
+    },
     //数据字典列表
     getDictList(id) {
       dict.dictList(id)
