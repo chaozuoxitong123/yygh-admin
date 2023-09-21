@@ -145,6 +145,7 @@ export default {
       hospApi.findByDictCode('Province')
         .then(response => {
           this.provinceList = response.data
+          console.log(response)
         })
     },
     //点击某个省，显示里面市（联动）
