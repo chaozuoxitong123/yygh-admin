@@ -40,7 +40,7 @@ export default {
   //查看医院科室
   getDeptByHoscode(hoscode) {
     return request ({
-      url: `/admin/hosp/department/getDeptList/${hoscode}`,
+      url: `/admin/hosp/hospital/getDeptList/${hoscode}`,
       method: 'get'
     })
   },
